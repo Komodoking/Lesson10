@@ -40,7 +40,7 @@ public class StringReview {
         //positive means furthe down the list
         System.out.println("Bob vs Bob\t");
         System.out.println("Bob".compareTo("Bob"));
-        
+        System.out.println("Thats all folks");
     }
     
 }
