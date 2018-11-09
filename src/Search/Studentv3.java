@@ -5,6 +5,10 @@
  */
 package Search;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 /**
  *
  * @author ajdy5510
@@ -12,6 +16,21 @@ package Search;
 public class Studentv3 extends javax.swing.JFrame {
 
     public Studentv3() {
+            try{
+    FileReader fr=new FileReader("studate.txt");
+    BufferedReader br=new BufferedReader(fr);
+            for (int i = 0; i < 100; i++) {
+                String nom=br.readLine();
+                String add= br.readLine();
+                int id= Integer.parseInt(br.readLine());
+               Student iss[x]=new Student();
+            }
+            br.close();
+           
+}catch(IOException ioe){
+            System.out.println(ioe);
+    
+}
         initComponents();
     }
 
