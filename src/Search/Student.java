@@ -5,10 +5,15 @@
  */
 package Search;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 public class Student implements Comparable {
 private String name;
 private String address;
 private int id;
+
 public Student(String n, String a, int i){
     name=n;
     address=a;
@@ -31,6 +36,10 @@ return id;
           return -1;
       else
           return 0;
+
     }
+ 
+            
+
 
 }
