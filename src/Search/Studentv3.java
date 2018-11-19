@@ -15,49 +15,46 @@ import java.io.IOException;
  */
 public class Studentv3 extends javax.swing.JFrame {
 
-       
+Student iss[]= new Student [100];
+
     public Studentv3() {
-int id=Integer.parseInt(txtsearch.getText());
-        Student temp= new Student(null,null,id);
-       
-           Student iss[]=null;
-try{
-    FileReader fr=new FileReader("studate.txt");
-    BufferedReader br=new BufferedReader(fr);
+
+        try {
+            FileReader fr = new FileReader("src\\Search\\studata.txt");
+            BufferedReader br = new BufferedReader(fr);
             for (int i = 0; i < 100; i++) {
-                String nom=br.readLine();
-                String add= br.readLine();
-             id= Integer.parseInt(br.readLine());
-             iss[i]=new Student(nom,add,id);
+                String nom = br.readLine();
+                String add = br.readLine();
+                int id = Integer.parseInt(br.readLine());
+                iss[i] = new Student(nom, add, id);
             }
             br.close();
-           
-}catch(IOException ioe){
+
+        } catch (IOException ioe) {
             System.out.println(ioe);
-    
-}                      
-int result =search(iss,temp);
-if(result>=0)txtresult.setText(iss[result].toString());
-else txtresult.setText("student not found");
+
+        }
 
         initComponents();
     }
-    public static int search (Object[] a, Object searchValue){
-	   int left = 0;
-	   int right = a.length-1;
-	   while (left <= right){
-	      int midpoint = (left + right) / 2;
-	      int result = ((Comparable)a[midpoint]).compareTo(searchValue); 
-	      if (result == 0)
-	         return midpoint;
-	      else if (result < 0)
-	         left = midpoint + 1;
-	      else
-	         right = midpoint-1;
-	   }
-	   return -1;	
-		   
-}
+
+    public static int search(Object[] a, Object searchValue) {
+        int left = 0;
+        int right = a.length - 1;
+        while (left <= right) {
+            int midpoint = (left + right) / 2;
+            int result = ((Comparable) a[midpoint]).compareTo(searchValue);
+            if (result == 0) {
+                return midpoint;
+            } else if (result < 0) {
+                left = midpoint + 1;
+            } else {
+                right = midpoint - 1;
+            }
+        }
+        return -1;
+
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -131,10 +128,19 @@ else txtresult.setText("student not found");
 
     private void btnsearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsearchActionPerformed
         // TODO add your handling code here:
+        int id = Integer.parseInt(txtsearch.getText());
+        Student temp = new Student(null, null, id);
+        int result = search(iss, temp);
+        if (result >= 0) {
+            txtresult.setText(iss[result].toString());
+        } else {
+            txtresult.setText("student not found");
+        }
     }//GEN-LAST:event_btnsearchActionPerformed
 
     private void btnclearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnclearActionPerformed
-        // TODO add your handling code here:
+    txtresult.setText("");
+        txtsearch.setText("");
     }//GEN-LAST:event_btnclearActionPerformed
 
     /**
