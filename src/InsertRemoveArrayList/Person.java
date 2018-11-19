@@ -12,10 +12,21 @@ package InsertRemoveArrayList;
 public class Person implements Comparable<Person> {
     private String name;
     private int age;
-    public Person(String nm,int ag){
+    private String gender;
+    public Person(String nm,int ag,String ge{
     name=nm;
     age=ag;
-    
+    gender=ge;
+    }
+    public String setGenderMale(String g){
+        g="Male";
+        g=gender;
+        return gender;
+    }
+     public String setGenderFeMale(String g){
+        g="Female";
+        g=gender;
+        return gender;
     }
     public String getName(){
         return name;
@@ -29,7 +40,7 @@ public class Person implements Comparable<Person> {
     }
     
 
-    @Override
+
     public int compareTo(Person t) {
         return name.compareTo(t.getName());
     }
