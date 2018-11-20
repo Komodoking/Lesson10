@@ -13,21 +13,14 @@ public class Person implements Comparable<Person> {
     private String name;
     private int age;
     private String gender;
-    public Person(String nm,int ag,String ge{
+    public Person(String nm,int ag,String ge){
     name=nm;
     age=ag;
     gender=ge;
     }
-    public String setGenderMale(String g){
-        g="Male";
-        g=gender;
-        return gender;
-    }
-     public String setGenderFeMale(String g){
-        g="Female";
-        g=gender;
-        return gender;
-    }
+  public String getGender(){
+      return gender;
+  }
     public String getName(){
         return name;
     }

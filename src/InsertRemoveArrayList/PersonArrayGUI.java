@@ -5,6 +5,7 @@
  */
 package InsertRemoveArrayList;
 
+import static InsertRemoveArrayList.Personlist.logicalSize;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 
@@ -17,10 +18,11 @@ ArrayList<Person> people= new ArrayList();
 DefaultListModel list= new DefaultListModel();
     public PersonArrayGUI() {
         initComponents();
-        people.add((new Person("A,A",25)));
-        people.add(new Person("Africa,Toto",37));
-        people.add(new Person("E,e",1400));
-        people.add(new Person("Lmao,Lmao",25));
+        people.add((new Person("A,A",25,"M")));
+        people.add(new Person("Africa,Toto",37,"M"));
+        people.add(new Person("E,e",1400,"F"));
+        people.add(new Person("Lmao,Lmao",25,"F"));
+        lstnames.setModel(list);
         for (Person p:people) {
             list.addElement(p.getName());
         }
@@ -29,9 +31,82 @@ DefaultListModel list= new DefaultListModel();
         txtName.setText("");
         txtAge.setText("");
         buttonGroup1.clearSelection();
-        1st
+        lstnames.clearSelection();
+        
     }
+public static int search (ArrayList <Object> array, Object searchValue){
+	   int left = 0;
+	   int right = logicalSize-1;
+	   while (left <= right){
+	      int midpoint = (left + right) / 2;
+	      int result = ((Comparable)array.get(midpoint)).compareTo(searchValue); 
+	      if (result == 0)
+	         return midpoint;
+	      else if (result < 0)
+	         left = midpoint + 1;
+	      else
+	         right = midpoint-1;
+	   }
+	   return -1;	
+		   
+}
 
+//////////////////////////////////////////////////////////////////////////////////
+
+public static boolean insert(ArrayList <Object> array, Object newItem, int targetIndex)
+{
+	// Check for a full array and return false if full
+	if (logicalSize == array.size())
+	   return false;
+	// Check for valid target index or return false 
+	if (targetIndex < 0 || targetIndex > logicalSize)
+	   return false;
+	// Shift items down by one position
+	for (int i = logicalSize; i > targetIndex; i--)      
+	   array.set(i, array.get(i - 1));
+	// Add new item, increment logical size,return true                       
+        array.set(targetIndex, newItem); 
+	logicalSize++;
+	return true; 
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+	
+public static boolean delete(ArrayList <Object> array, int targetIndex)
+{
+	if (targetIndex < 0 || targetIndex >= logicalSize)
+		   return false;
+		 
+		// Shift items up by one position
+		for (int i = targetIndex; i < logicalSize - 1; i++)       
+		   array.set(i, array.get(i + 1));
+		 
+		// Decrement logical size and return true 
+		logicalSize--; 
+		return true;                                   
+}
+
+/////////////////////////////////////////////////////////////////////////////////
+	
+public static int findInsertPoint (ArrayList <Object> array, Object searchValue){
+	   int left = 0;
+	   int right = logicalSize-1;
+	   int midpoint=0;
+	   
+	   while (left <= right){
+	      midpoint = (left + right) / 2;
+	   
+	      int result = ((Comparable)array.get(midpoint)).compareTo(searchValue); 
+	   
+	     if (result < 0)
+	         left = midpoint + 1;
+	      else
+	         right = midpoint-1;
+	   }
+	   if(((Comparable)array.get(midpoint)).compareTo(searchValue) < 0)
+	   midpoint++;
+	   return midpoint;	   
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -50,7 +125,8 @@ DefaultListModel list= new DefaultListModel();
         jLabel2 = new javax.swing.JLabel();
         txtName = new javax.swing.JTextField();
         txtAge = new javax.swing.JTextField();
-        lstnames = new java.awt.List();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        lstnames = new javax.swing.JList<>();
         jMenuBar1 = new javax.swing.JMenuBar();
         menfile = new javax.swing.JMenu();
         Exit = new javax.swing.JMenuItem();
@@ -79,11 +155,7 @@ DefaultListModel list= new DefaultListModel();
 
         jLabel2.setText("Age:");
 
-        lstnames.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                lstnamesActionPerformed(evt);
-            }
-        });
+        jScrollPane2.setViewportView(lstnames);
 
         menfile.setText("File");
 
@@ -168,12 +240,12 @@ DefaultListModel list= new DefaultListModel();
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lstnames, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnMale, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(btnMale)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
@@ -183,7 +255,7 @@ DefaultListModel list= new DefaultListModel();
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtAge, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(77, Short.MAX_VALUE))
+                .addContainerGap(83, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -203,8 +275,8 @@ DefaultListModel list= new DefaultListModel();
                 .addGap(43, 43, 43))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lstnames, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -215,7 +287,7 @@ DefaultListModel list= new DefaultListModel();
     }//GEN-LAST:event_ExitActionPerformed
 
     private void ClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClearActionPerformed
-        // TODO add your handling code here:
+       clearForm();
     }//GEN-LAST:event_ClearActionPerformed
 
     private void AddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddActionPerformed
@@ -223,7 +295,10 @@ DefaultListModel list= new DefaultListModel();
     }//GEN-LAST:event_AddActionPerformed
 
     private void DeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteActionPerformed
-        // TODO add your handling code here:
+       String w=txtName.getText();
+       Search(people,w);
+       
+       
     }//GEN-LAST:event_DeleteActionPerformed
 
     private void AllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AllActionPerformed
@@ -237,11 +312,14 @@ DefaultListModel list= new DefaultListModel();
     private void FemaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FemaleActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_FemaleActionPerformed
-
-    private void lstnamesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lstnamesActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lstnamesActionPerformed
-
+public void show(Person p){
+    txtName.setText(p.getName());
+    txtAge.setText(p.getName());
+    if(p.getGender()=="M")
+        btnMale.setSelected(true);
+    else 
+        btnFemale.setSelected(true);
+}
     /**
      * @param args the command line arguments
      */
@@ -293,8 +371,9 @@ DefaultListModel list= new DefaultListModel();
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea jTextArea1;
-    private java.awt.List lstnames;
+    private javax.swing.JList<String> lstnames;
     private javax.swing.JMenu menedit;
     private javax.swing.JMenu menfile;
     private javax.swing.JMenu menfilt;
