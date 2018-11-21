@@ -297,6 +297,8 @@ public static int findInsertPoint (ArrayList <Object> array, Object searchValue)
     private void DeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteActionPerformed
        String w=txtName.getText();
        Search(people,w);
+       list.remove(lstnames.getSelectedIndex());
+       
        
        
     }//GEN-LAST:event_DeleteActionPerformed
@@ -380,4 +382,8 @@ public void show(Person p){
     private javax.swing.JTextField txtAge;
     private javax.swing.JTextField txtName;
     // End of variables declaration//GEN-END:variables
+
+    private void Search(ArrayList<Person> people, String w) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
