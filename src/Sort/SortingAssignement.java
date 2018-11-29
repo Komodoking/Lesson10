@@ -12,18 +12,19 @@ import javax.swing.DefaultListModel;
  * @author ajdy5510
  */
 public class SortingAssignement extends javax.swing.JFrame {
-DefaultListModel list = new DefaultListModel();
-int generated[]=new int[5000];
- 
-        
+
+    DefaultListModel list = new DefaultListModel();
+   
+    int generated[] = new int[5000];
+
     public SortingAssignement() {
+        list.clear();
         for (int i = 0; i < 5000; i++) {
-            generated[i]= (int)(Math.random()*5000+1);
-           list.addElement("\n"+generated[i]);
-          
+            generated[i] = (int) (Math.random() * 5000 + 1);
+            list.addElement("\n" + generated[i]);
+
         }
-       
-             
+
         initComponents();
     }
 
@@ -83,6 +84,11 @@ int generated[]=new int[5000];
         });
 
         btnClear.setText("Clear");
+        btnClear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearActionPerformed(evt);
+            }
+        });
 
         lstnums.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -135,38 +141,50 @@ int generated[]=new int[5000];
     }// </editor-fold>//GEN-END:initComponents
 
     private void bngenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bngenActionPerformed
-        
-       
-      for (int i = 0; i < 5000; i++) {
-        generated[i]= (int)(Math.random()*5000+1);
-             list.addElement("\n"+generated[i]);
+
+        for (int i = 0; i < 5000; i++) {
+            generated[i] = (int) (Math.random() * 5000 + 1);
+            list.addElement("\n" + generated[i]);
         }
-      lstnums.setModel(list);
+        lstnums.setModel(list);
     }//GEN-LAST:event_bngenActionPerformed
 
     private void btnbubActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnbubActionPerformed
        list.clear();
-       bubbleSort(generated);
+        bubbleSort(generated);
         for (int i = 0; i < 5000; i++) {
-            generated[i]= (int)(Math.random()*5000+1);
-            list.addElement("\n"+generated[i]);
+    
+            list.addElement("\n" + generated[i]);
+            
         }
-        lstnums.setModel(list);
+      
 
-        
+
     }//GEN-LAST:event_btnbubActionPerformed
 
     private void btnexActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnexActionPerformed
-        // TODO add your handling code here:
+list.clear();
+        selectionSort(generated);
+        for (int i = 0; i < 5000; i++) {
+            list.addElement(" \n "+generated[i]);
+        }
     }//GEN-LAST:event_btnexActionPerformed
 
     private void btninsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btninsertActionPerformed
-        // TODO add your handling code here:
+list.clear();
+        insertionSort(generated);
+        for (int i = 0; i < 5000; i++) {
+            list.addElement(" \n "+generated[i]);
+        }
     }//GEN-LAST:event_btninsertActionPerformed
 
     private void btnquickActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnquickActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_btnquickActionPerformed
+
+    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
+      list.clear();
+    }//GEN-LAST:event_btnClearActionPerformed
 
     /**
      * @param args the command line arguments
@@ -202,90 +220,84 @@ int generated[]=new int[5000];
             }
         });
     }
-    public static void bubbleSort(int[] a){
-   	int k = 0;
-   	boolean exchangeMade = true;
-	// Make up to n - 1 passes through array, exit 
-	//early if no exchanges are made on previous pass
-  
- 	while ((k < a.length - 1) && exchangeMade){
-      		exchangeMade = false;
-      		k++;
-      		for (int j = 0; j < a.length - k; j++) { 
-         		if (a[j] > a[j + 1]){
-            			swap(a, j, j + 1);		 
-            			exchangeMade = true;
-         		}//end if
-		}//end for
-	}//end while
-}
+
+    public static void bubbleSort(int[] a) {
+        int k = 0;
+        boolean exchangeMade = true;
+        // Make up to n - 1 passes through array, exit 
+        //early if no exchanges are made on previous pass
+
+        while ((k < a.length - 1) && exchangeMade) {
+            exchangeMade = false;
+            k++;
+            for (int j = 0; j < a.length - k; j++) {
+                if (a[j] > a[j + 1]) {
+                    swap(a, j, j + 1);
+                    exchangeMade = true;
+                }//end if
+            }//end for
+        }//end while
+    }
 
 //supporting swap method
-
-public static void swap(int[] a, int x, int y){
-   int temp = a[x];
-   a[x] = a[y];
-   a[y] = temp;
-}
-
+    public static void swap(int[] a, int x, int y) {
+        int temp = a[x];
+        a[x] = a[y];
+        a[y] = temp;
+    }
 
 ////////////////////////////////////////////////////////////////
-
-public static void selectionSort(int[] a){
-   for (int i = 0; i < a.length - 1; i++){
-      int minIndex = findMinimum(a, i);
-      if (minIndex != i)
-	//if lowest is not already in place
-         swap(a, i, minIndex);
-   } //end for
-}  
+    public static void selectionSort(int[] a) {
+        for (int i = 0; i < a.length - 1; i++) {
+            int minIndex = findMinimum(a, i);
+            if (minIndex != i) //if lowest is not already in place
+            {
+                swap(a, i, minIndex);
+            }
+        } //end for
+    }
 
 //supporting findMinimum method
-
-public static int findMinimum(int[] a, int first){
-   //first=where to start looking from
-   //assume first is also the smallest for now
-   int minIndex = first; 
-   for (int i = first + 1; i < a.length; i++)
-      if (a[i] < a[minIndex])
-         minIndex = i;
-   return minIndex;
-}
+    public static int findMinimum(int[] a, int first) {
+        //first=where to start looking from
+        //assume first is also the smallest for now
+        int minIndex = first;
+        for (int i = first + 1; i < a.length; i++) {
+            if (a[i] < a[minIndex]) {
+                minIndex = i;
+            }
+        }
+        return minIndex;
+    }
 
 //supporting swap method (same as bubble sort swap)
-
-
-
 /////////////////////////////////////////////////////////////
+    public static void insertionSort(int a[]) {
+        int itemToInsert, j;
+        boolean stillLooking;
 
-public static void insertionSort(int a[]){
-	int itemToInsert, j;
-	boolean stillLooking;
-
-	//on the kth pass, pass item k upwards in list
-	//and insert it in its proper place amoung the
-	//first k entries in an array
-
-	for (int k=1; k<a.length; k++){
-	//move backwards through list, looking for
-	//the right place to insert a[k];
-		itemToInsert = a[k];
-		j=k-1;
-		stillLooking=true;
-		while(j >=0 && stillLooking){
-			if (itemToInsert < a[j]){
-				//move item higher
-				a[j+1] = a[j];
-				j--;
-			}else{
-				//we have found new home for a[k];
-				stillLooking=false;
-			}//end else// j+1 is where the item goes
-			a[j+1]=itemToInsert;
-		}//end while
-  	}//end for
-}//end method
-
+        //on the kth pass, pass item k upwards in list
+        //and insert it in its proper place amoung the
+        //first k entries in an array
+        for (int k = 1; k < a.length; k++) {
+            //move backwards through list, looking for
+            //the right place to insert a[k];
+            itemToInsert = a[k];
+            j = k - 1;
+            stillLooking = true;
+            while (j >= 0 && stillLooking) {
+                if (itemToInsert < a[j]) {
+                    //move item higher
+                    a[j + 1] = a[j];
+                    j--;
+                } else {
+                    //we have found new home for a[k];
+                    stillLooking = false;
+                }//end else// j+1 is where the item goes
+                a[j + 1] = itemToInsert;
+            }//end while
+        }//end for
+    }//end method
 
 ///////////////////////////////////////////////////////////////////
 
