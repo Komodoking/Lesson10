@@ -16,7 +16,7 @@ public class SortingAssignement extends javax.swing.JFrame {
     DefaultListModel list = new DefaultListModel();
    
     int generated[] = new int[5000];
-
+private int length;
     public SortingAssignement() {
         list.clear();
         for (int i = 0; i < 5000; i++) {
@@ -179,9 +179,12 @@ list.clear();
     }//GEN-LAST:event_btninsertActionPerformed
 
     private void btnquickActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnquickActionPerformed
-
+list.clear();
+        sort(generated);
+        for (int i = 0; i < 5000; i++) {
+            list.addElement(" \n "+generated[i]);
     }//GEN-LAST:event_btnquickActionPerformed
-
+    }
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
       list.clear();
     }//GEN-LAST:event_btnClearActionPerformed
@@ -220,7 +223,53 @@ list.clear();
             }
         });
     }
-
+     public void sort(int[] inputArr) {
+         
+        if (inputArr == null || inputArr.length == 0) {
+            return;
+        }
+        this.generated = inputArr;
+        length = inputArr.length;
+        quickSort(0, length - 1);
+    }
+ private void quickSort(int lowerIndex, int higherIndex) {
+         
+        int i = lowerIndex;
+        int j = higherIndex;
+        // calculate pivot number, I am taking pivot as middle index number
+        int pivot = generated[lowerIndex+(higherIndex-lowerIndex)/2];
+        // Divide into two arrays
+        while (i <= j) {
+            /**
+             * In each iteration, we will identify a number from left side which 
+             * is greater then the pivot value, and also we will identify a number 
+             * from right side which is less then the pivot value. Once the search 
+             * is done, then we exchange both numbers.
+             */
+            while (generated[i] < pivot) {
+                i++;
+            }
+            while (generated[j] > pivot) {
+                j--;
+            }
+            if (i <= j) {
+                exchangeNumbers(i, j);
+                //move index to next position on both sides
+                i++;
+                j--;
+            }
+        }
+        // call quickSort() method recursively
+        if (lowerIndex < j)
+            quickSort(lowerIndex, j);
+        if (i < higherIndex)
+            quickSort(i, higherIndex);
+    }
+  private void exchangeNumbers(int i, int j) {
+        int temp = generated[i];
+        generated[i] = generated[j];
+        generated[j] = temp;
+    }
     public static void bubbleSort(int[] a) {
         int k = 0;
         boolean exchangeMade = true;
